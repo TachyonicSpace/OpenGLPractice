@@ -38,7 +38,7 @@ int main(void)
         /*draw a triangle*/
         glBegin(GL_TRIANGLES);
         glVertex2f(-.5f, -.5f);
-        glVertex2f(0.0f, .5f);
+        //glVertex2f(0.0f, .5f);
         glVertex2f(.5f, -.5f);
 
         /* Swap front and back buffers */
