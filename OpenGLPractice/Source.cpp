@@ -113,11 +113,10 @@ int main()
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(positions[0]) * 2, 0);
 
-    ShaderProgramSource source = parseShader("Resource Files/shaders/Basic.shader");
-    std::cout << source.VertexSource << "\n";
+    ShaderProgramSource source = parseShader("res/shaders/Basic.shader");
 
-    //unsigned int shader = CreateShader(vertexshader, fragmentshader);
-    //glUseProgram(shader);
+    unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
+    glUseProgram(shader);
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -134,6 +133,7 @@ int main()
         /* Poll for and process events */
         glfwPollEvents();
     }
+    glDeleteProgram(shader);
 
     glfwTerminate();
 }
