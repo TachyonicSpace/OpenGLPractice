@@ -25,6 +25,7 @@ int main(void)
     glfwMakeContextCurrent(window);
     
     
+    /*make sure glew initilizes correctly*/
     if (glewInit() != GLEW_OK) {
         std::cout << "error!\n";
     }
@@ -35,7 +36,7 @@ int main(void)
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
-        /*draw a triangle*/
+        /*draw a triangle using the very original OpenGL*/
         glBegin(GL_TRIANGLES);
         glVertex2f(-.5f, -.5f);
         glVertex2f(0.0f, .5f);
