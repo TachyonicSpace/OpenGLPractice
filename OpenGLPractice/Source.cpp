@@ -99,7 +99,10 @@ int main()
     if (!glfwInit())
         return -1;
 
-    
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
@@ -130,18 +133,23 @@ int main()
         2, 3, 0
     };
 
+    unsigned int vao;//vertex array object
+    GLCall(glGenVertexArrays(1, &vao));
+    GLCall(glBindVertexArray(vao));
+
     unsigned int buffer;
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
     glBufferData(GL_ARRAY_BUFFER, 6 * 2 * sizeof(float), positions, GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
+    //in the line below, "0" is binding to the bound buffer's location
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(positions[0]) * 2, 0);
 
     unsigned int ibo;//indexBufferObject
     glGenBuffers(1, &ibo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(float), indicies, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 4 * 2 * sizeof(float), indicies, GL_STATIC_DRAW);
 
     ShaderProgramSource source = parseShader("res/shaders/Basic.shader");
 
@@ -152,6 +160,11 @@ int main()
     ASSERT(location != -1);
     GLCall(glUniform4f(location, 0.2, 0.3, .8, 1));
 
+    GLCall(glBindVertexArray(0));
+    GLCall(glUseProgram(0));
+    GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
+    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+
     float r = 0, increment = 0.05;
 
     /* Loop until the user closes the window */
@@ -161,7 +174,12 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         /*draw a triangle*/
+        GLCall(glUseProgram(shader));
         GLCall(glUniform4f(location, r, 0.3, .8, 1));
+        
+        GLCall(glBindVertexArray(vao));
+        GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
+
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 
         if (r > 1)
