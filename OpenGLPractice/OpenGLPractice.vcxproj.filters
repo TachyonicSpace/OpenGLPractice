@@ -26,5 +26,8 @@
     <None Include="Basic.shader">
       <Filter>Resource Files\shaders</Filter>
     </None>
+    <None Include="res\shaders\Basic.shader">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
