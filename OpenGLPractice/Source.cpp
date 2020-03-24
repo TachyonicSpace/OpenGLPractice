@@ -1,7 +1,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include <iostream>;
+#include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -196,7 +196,7 @@ int main()
     //if the variable is not found, then break the program
     ASSERT(location != -1);
     //put this data into the uniform to be read by the gpu
-    GLCall(glUniform4f(location, 0.2, 0.3, .8, 1));
+    GLCall(glUniform4f(location, 0.2f, 0.3f, .8f, 1.0f));
 
     //removes all the following items from the gpu to simulate animating multiple objects
     GLCall(glBindVertexArray(0));
@@ -205,7 +205,7 @@ int main()
     GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 
     //define a redColor variable and the increment for each frame
-    float r = 0, increment = 0.05;
+    float r = 0.0f, increment = 0.05f;
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -215,7 +215,7 @@ int main()
 
         //re-assigns the following items to the gpu right befor drawing them
         GLCall(glUseProgram(shader));
-        GLCall(glUniform4f(location, r, 0.3, .8, 1));
+        GLCall(glUniform4f(location, r, 0.3f, .8f, 1.0f));
         GLCall(glBindVertexArray(vao));
         GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
 
@@ -224,9 +224,9 @@ int main()
 
         //if the red color goes out of bounds, then negate the increment
         if (r > 1)
-            increment = -.05;
+            increment = -.05f;
         else if (r < 0)
-            increment = .05;
+            increment = .05f;
         //increment the red variable
         r += increment;
 
