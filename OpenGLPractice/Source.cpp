@@ -5,25 +5,10 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-//if x is false then add a breakpoint to that line of code
-#define ASSERT(x) if (!(x)) __debugbreak();
-//clear errors from openGL, run x, then checks for errors
-#define GLCall(x) GLClearErrors();\
-    x;\
-    ASSERT(GLLogCall(#x, __FILE__, __LINE__))
 
-//clear errors from openGL
-static void GLClearErrors() {
-    while (glGetError() != GL_NO_ERROR);
-}
-
-//print the errors to the screen, and then return if it ran correctly
-static bool GLLogCall(const char* function, const char* file, int line) {
-    while (GLenum error = glGetError()) {
-        std::cout << "{OpenGL Error} (" << error << "):" << function << " " << file << ":" << line;
-        return false;
-    }return true;
-}
+#include "Renderer.h"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
 
 
 //a struct to allow us to return multiple return types
@@ -157,13 +142,9 @@ int main()
     //binds the vertex array to the gpu
     GLCall(glBindVertexArray(vao));
 
-    //makes the buffer that will hold the positons
-    unsigned int buffer;
-    GLCall(glGenBuffers(1, &buffer));
-    //binds the buffer to the current scope
-    GLCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
-    //specifies the type, how big the array is in bytes, points to the data, and hints at openGL how the data will be used
-    GLCall(glBufferData(GL_ARRAY_BUFFER, 6 * 2 * sizeof(float), positions, GL_STATIC_DRAW));
+    //makes the buffer that will hold the positons and binds it to the gpu
+    VertexBuffer vb(positions, 4 * 2 * sizeof(float));
+    
 
     //specifies how to traverse the array
     GLCall(glEnableVertexAttribArray(0));
@@ -177,12 +158,8 @@ int main()
     a pointer*/
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(positions[0]) * 2, 0);
 
-    unsigned int ibo;//indexBufferObject
-    GLCall(glGenBuffers(1, &ibo));
-    //binds it the the gpu scope
-    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
-    //adds the index buffer to the gpu
-    GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, 4 * 2 * sizeof(float), indicies, GL_STATIC_DRAW));
+    //makes an index buffer object and binds it to the program
+    IndexBuffer ib(indicies, 6);
 
     //makes some shader code from the file at this location
     ShaderProgramSource source = parseShader("res/shaders/Basic.shader");
@@ -217,7 +194,7 @@ int main()
         GLCall(glUseProgram(shader));
         GLCall(glUniform4f(location, r, 0.3f, .8f, 1.0f));
         GLCall(glBindVertexArray(vao));
-        GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
+        ib.bind();
 
         /*draw a triangle*/
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
