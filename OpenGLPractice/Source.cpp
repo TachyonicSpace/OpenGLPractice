@@ -137,10 +137,11 @@ int main()
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(positions[0]) * 2, 0);
 
 
+    //makes some shader code from the file at this location
     ShaderProgramSource source = parseShader("res/shaders/Basic.shader");
-
+    //compiles the shader and returns the location on the gpu
     unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
-
+    //tells openGL to use this shader
     glUseProgram(shader);
 
     /* Loop until the user closes the window */
