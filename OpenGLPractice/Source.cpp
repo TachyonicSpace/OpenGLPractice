@@ -24,17 +24,19 @@ int main(void)
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
     
-    
+    //makes sure glew opens correctly
     if (glewInit() != GLEW_OK) {
         std::cout << "error!\n";
     }
 
+    //our data
     float positions[] = {
         -.5f, -.5f,
         0.0f, 0.5f,
         .5f, -0.5f
     };
 
+    //allows us to store the data onto the gpu
     unsigned int buffer;
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
