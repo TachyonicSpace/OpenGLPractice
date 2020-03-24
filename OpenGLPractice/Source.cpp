@@ -1,7 +1,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include <iostream>;
+#include <iostream>
 
 int main(void)
 {
@@ -41,6 +41,7 @@ int main(void)
         glVertex2f(-.5f, -.5f);
         glVertex2f(0.0f, .5f);
         glVertex2f(.5f, -.5f);
+        glEnd();
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
