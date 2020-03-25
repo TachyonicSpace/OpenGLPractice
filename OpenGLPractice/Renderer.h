@@ -1,6 +1,9 @@
 #pragma once
 
 #include <GL/glew.h>
+#include "VertexArray.h"
+#include "IndexBuffer.h"
+#include "Shader.h"
 
 //if x is false then add a breakpoint to that line of code
 #define ASSERT(x) if (!(x)) __debugbreak();
@@ -14,3 +17,10 @@ void GLClearErrors();
 
 //print the errors to the screen, and then return if it ran correctly
 bool GLLogCall(const char* function, const char* file, int line);
+
+class Renderer 
+{
+public:
+    void Clear() const;
+    void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const;
+};

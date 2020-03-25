@@ -10,6 +10,7 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "VertexArray.h"
+#include "VertexBufferLayout.h"
 #include "Shader.h"
 
 
@@ -84,6 +85,8 @@ int main()
         va.UnBind();
         ib.unBind();
 
+        Renderer renderer;
+
         //define a redColor variable and the increment for each frame
         float r = 0.0f, increment = 0.05f;
 
@@ -91,7 +94,7 @@ int main()
         while (!glfwWindowShouldClose(window))
         {
             /* Render here */
-            glClear(GL_COLOR_BUFFER_BIT);
+            renderer.Clear();
 
             //re-assigns the following items to the gpu right befor drawing them
             shader.Bind();
@@ -100,8 +103,8 @@ int main()
             va.Bind();
             ib.bind();
 
-            /*draw a triangle*/
-            GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+            /*draw our renderer*/
+            renderer.Draw(va, ib, shader);
 
             //if the red color goes out of bounds, then negate the increment
             if (r > 1)
