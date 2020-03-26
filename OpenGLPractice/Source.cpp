@@ -12,6 +12,7 @@
 #include "VertexArray.h"
 #include "VertexBufferLayout.h"
 #include "Shader.h"
+#include "Texture.h"
 
 
 int main()
@@ -49,10 +50,10 @@ int main()
     {
         //an array holding the positions of the  triangle plus one for the square
         float positions[] = {
-            -.5f, -.5f,
-            0.5f, -0.5f,
-            .5f, 0.5f,
-            -.5f, .5f,
+            -.5f, -.5f, 0, 0,
+            0.5f, -0.5f, 1, 0,
+            .5f, 0.5f, 1, 1,
+            -.5f, .5f, 0, 1
         };
 
         //openGL how to read the positions to make a square out of two triangles
@@ -64,8 +65,9 @@ int main()
 
         VertexArray va;
         //makes the buffer that will hold the positons and binds it to the gpu
-        VertexBuffer vb(positions, 4 * 2 * sizeof(float));
+        VertexBuffer vb(positions, 4 * 4 * sizeof(float));
         VertexBufferLayout layout;
+        layout.push<float>(2);
         layout.push<float>(2);
         va.addBuffer(vb, layout);
 
@@ -74,9 +76,13 @@ int main()
         IndexBuffer ib(indicies, 6);
 
 
-        Shader shader("res/shaders/Basic.shader");
+        Shader shader("res/shaders/BasicTexture.shader");
         shader.Bind();
         shader.SetUniform4f("u_color", 0.2f, 0.3f, .8f, 1.0f);
+
+        Texture texture("res/textures/image.png");
+        texture.Bind();
+        shader.SetUniform1i("u_Texture", 0);
 
 
         //removes all the following items from the gpu to simulate animating multiple objects
