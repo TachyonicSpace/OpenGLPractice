@@ -10,7 +10,7 @@
 //clear errors from openGL, run x, then checks for errors
 #define GLCall(x) GLClearErrors();\
     x;\
-    //ASSERT(GLLogCall(#x, __FILE__, __LINE__))
+    ASSERT(GLLogCall(#x, __FILE__, __LINE__))
 
 //clear errors from openGL
 void GLClearErrors();

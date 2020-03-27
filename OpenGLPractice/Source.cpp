@@ -14,6 +14,10 @@
 #include "Shader.h"
 #include "Texture.h"
 
+#include "vender\glm\glm.hpp"
+#include "vender\glm\gtc\matrix_transform.hpp"
+
+
 
 int main()
 {
@@ -77,10 +81,13 @@ int main()
         //makes an index buffer object and binds it to the program
         IndexBuffer ib(indicies, 6);
 
+        glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
 
         Shader shader("res/shaders/BasicTexture.shader");
         shader.Bind();
         shader.SetUniform4f("u_color", 0.2f, 0.3f, .8f, 1.0f);
+        shader.SetUniformMat4f("u_MPV", proj);
+
 
         Texture texture("res/textures/image.png");
         texture.Bind();
