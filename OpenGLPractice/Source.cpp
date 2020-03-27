@@ -46,6 +46,8 @@ int main()
     if (glewInit() != GLEW_OK) {
         std::cout << "error!\n";
     }
+    GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA));
+    GLCall(glEnable(GL_BLEND));
 
     {
         //an array holding the positions of the  triangle plus one for the square
