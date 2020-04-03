@@ -33,7 +33,7 @@ void VertexArray::addBuffer(const VertexBuffer& vb, const VertexBufferLayout& la
         how far in memory do we move bevore hitting the next vertex
         offset pointer*/
         GLCall(glVertexAttribPointer(i, element.count, element.type, 
-            element.normalized, layout.GetStride(), (const void*)offset));
+            element.normalized, layout.GetStride(), (const void*)(offset)));
         offset += element.count * VertexBufferElement::GetSizeOfType(element.type);
     }
 }

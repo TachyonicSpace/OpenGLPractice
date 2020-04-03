@@ -16,7 +16,8 @@
 
 #include "vender\glm\glm.hpp"
 #include "vender\glm\gtc\matrix_transform.hpp"
-
+#include "vender\imgui\imgui.h"
+#include "vender\imgui\imgui_impl_glfw_gl3.h"
 
 
 int main()
@@ -34,7 +35,7 @@ int main()
 
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(960, 540, "Hello World", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -56,10 +57,10 @@ int main()
     {
         //an array holding the positions of the  triangle plus one for the square
         float positions[] = {
-            -.5f, -.5f, 0, 0,
-            0.5f, -0.5f, 1, 0,
-            .5f, 0.5f, 1, 1,
-            -.5f, .5f, 0, 1
+            100.f, 100.f, 0, 0,
+            200.f, 100.f, 1, 0,
+            200.f, 200.f, 1, 1,
+            100.f, 200.f, 0, 1
         };
 
         //openGL how to read the positions to make a square out of two triangles
@@ -81,12 +82,17 @@ int main()
         //makes an index buffer object and binds it to the program
         IndexBuffer ib(indicies, 6);
 
-        glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
+        //the projection ont the screen, simulating depth
+        glm::mat4 proj = glm::ortho(0.f, 960.f, 0.f, 540.f, -1.0f, 1.0f);
+        //the view matrix, simulating camera, first paramiter is an identity matrix, second is the translation
+        glm::mat4 view = glm::translate(glm::mat4(1.f), glm::vec3(-100, 0, 0));
+
 
         Shader shader("res/shaders/BasicTexture.shader");
+        //Shader shader("OpenGLPractice/OpenGLPractice/res/shaders/BasicTexture.shader");
         shader.Bind();
         shader.SetUniform4f("u_color", 0.2f, 0.3f, .8f, 1.0f);
-        shader.SetUniformMat4f("u_MPV", proj);
+
 
 
         Texture texture("res/textures/image.png");
@@ -102,6 +108,19 @@ int main()
 
         Renderer renderer;
 
+        // Setup ImGui binding
+        ImGui::CreateContext();
+        ImGui_ImplGlfwGL3_Init(window, true);
+
+        // Setup style
+        ImGui::StyleColorsDark();
+
+        bool show_demo_window = true;
+        bool show_another_window = false;
+        ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+        glm::vec3 translation(200, 200, 0);
+
         //define a redColor variable and the increment for each frame
         float r = 0.0f, increment = 0.05f;
 
@@ -111,9 +130,18 @@ int main()
             /* Render here */
             renderer.Clear();
 
+            ImGui_ImplGlfwGL3_NewFrame();
+
+            //move the acctual object 200 to the left and 200 up
+            glm::mat4 model = glm::translate(glm::mat4(1.f), translation);
+
+            //preform the calculation to see where it is in the screen
+            glm::mat4 mvp = proj * view * model;
+
             //re-assigns the following items to the gpu right befor drawing them
             shader.Bind();
             shader.SetUniform4f("u_color", r, 0.3f, .8f, 1.0f);
+            shader.SetUniformMat4f("u_MPV", mvp);
 
             va.Bind();
             ib.bind();
@@ -129,6 +157,17 @@ int main()
             //increment the red variable
             r += increment;
 
+
+            {
+                
+                ImGui::SliderFloat3("float", &translation.x, 0.0f, 960.0f);// Edit 1 float using a slider from 0.0f to 1.0f    
+                
+                ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+            }
+
+
+            ImGui::Render();
+            ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
 
@@ -136,5 +175,8 @@ int main()
             glfwPollEvents();
         }
     }
+    // Cleanup
+    ImGui_ImplGlfwGL3_Shutdown();
+    ImGui::DestroyContext();
     glfwTerminate();
 }
