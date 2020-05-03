@@ -151,7 +151,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DNA.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
+    <ClCompile Include="Rocket.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -170,8 +172,10 @@
     <None Include="res\shaders\BasicTexture.shader" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DNA.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Rocket.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="vender\imgui\imconfig.h" />
