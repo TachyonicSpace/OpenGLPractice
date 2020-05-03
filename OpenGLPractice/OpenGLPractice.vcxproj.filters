@@ -57,6 +57,15 @@
     <ClCompile Include="vender\imgui\imgui_impl_glfw_gl3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tests\TestClearColor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\TestTexture2d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.shader">
@@ -110,6 +119,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="vender\imgui\imgui_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\TestClearColor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\TestTexture2d.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

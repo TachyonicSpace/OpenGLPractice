@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\glew-2.1.0\include;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)OpenGLPractice\vendor;$(SolutionDir)OpenGLPractice\res</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\glew-2.1.0\include;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)OpenGLPractice\vender;$(SolutionDir)OpenGLPractice\res;$(SolutionDir)OpenGLPractice</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -120,7 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\glew-2.1.0\include;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)OpenGLPractice\vendor;$(SolutionDir)OpenGLPractice\res</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\glew-2.1.0\include;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)OpenGLPractice\vender;$(SolutionDir)OpenGLPractice\res;$(SolutionDir)OpenGLPractice</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,6 +155,9 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="tests\test.cpp" />
+    <ClCompile Include="tests\TestClearColor.cpp" />
+    <ClCompile Include="tests\TestTexture2d.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="vender\imgui\imgui.cpp" />
     <ClCompile Include="vender\imgui\imgui_demo.cpp" />
@@ -173,6 +176,9 @@
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="tests\TestClearColor.h" />
+    <ClInclude Include="tests\test.h" />
+    <ClInclude Include="tests\TestTexture2d.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="vender\imgui\imconfig.h" />
     <ClInclude Include="vender\imgui\imgui.h" />
