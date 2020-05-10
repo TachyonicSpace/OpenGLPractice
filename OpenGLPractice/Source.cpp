@@ -57,10 +57,10 @@ int main()
     {
         //an array holding the positions of the  triangle plus one for the square
         float positions[] = {
-            -50.f, -50.f, 0, 0,
-             50.f, -50.f, 1, 0,
-             50.f,  50.f, 1, 1,
-            -50.f,  50.f, 0, 1
+            -250.f, -250.f, 0, 0,
+             250.f, -250.f, 1, 0,
+             250.f,  250.f, 1, 1,
+            -250.f,  250.f, 0, 1
         };
 
         //openGL how to read the positions to make a square out of two triangles
@@ -95,7 +95,7 @@ int main()
 
 
 
-        Texture texture("res/textures/image.png");
+        Texture texture("res/textures/mothersDayImage.png");
         texture.Bind();
         shader.SetUniform1i("u_Texture", 0);
 
@@ -119,8 +119,12 @@ int main()
         bool show_another_window = false;
         ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-        glm::vec3 translationA(200, 200, 0);
-        glm::vec3 translationB(400, 200, 0);
+		glm::vec3 rotationDirection(0, 0, 0); 
+        glm::vec3 scaling(1, 1, 1);
+
+
+        glm::vec3 translationA(300, 270, 0);
+
 
 
         //define a redColor variable and the increment for each frame
@@ -141,45 +145,29 @@ int main()
             {
                 //move the acctual object 200 to the left and 200 up
                 glm::mat4 model = glm::translate(glm::mat4(1.f), translationA);
-                glm::mat4 rotate = glm::rotate(glm::mat4(1.f), rotation, glm::vec3(-1, -1, -1));
+                auto scale = glm::scale(glm::mat4(1.f), scaling);
+                glm::mat4 rotate = glm::rotate(glm::mat4(1.f), rotation, rotationDirection);
+
+                model = (rotationDirection == glm::vec3(0, 0, 0) ? model : model * rotate);
 
                 //preform the calculation to see where it is in the screen
-                glm::mat4 mvp = proj * view * model * rotate;
+                glm::mat4 mvp = proj * view * scale * model;
                 shader.Bind();
                 shader.SetUniformMat4f("u_MPV", mvp);
                 /*draw our item*/
                 renderer.Draw(va, ib, shader);
             }
-
-            {
-                //move the acctual object 200 to the left and 200 up
-                glm::mat4 model = glm::translate(glm::mat4(1.f), translationB);
-                glm::mat4 rotate = glm::rotate(glm::mat4(1.f), rotation, glm::vec3(-1, -1, -1));
-
-                //preform the calculation to see where it is in the screen
-                glm::mat4 mvp = proj * view * model * rotate;
-                shader.Bind();
-                shader.SetUniformMat4f("u_MPV", mvp);
-                /*draw our item*/
-                renderer.Draw(va, ib, shader);
-            }
-
-
-
-            //if the red color goes out of bounds, then negate the increment
-            if (r > 1)
-                increment = -.05f;
-            else if (r < 0)
-                increment = .05f;
-            //increment the red variable
-            r += increment;
 
 
             {
                 
-                ImGui::SliderFloat3("boxA", &translationA.x, 0.0f, 960.0f);// Edit 1 float using a slider from 0.0f to 1.0f    
+                ImGui::SliderFloat3("Position", &translationA.x, 0.0f, 960.0f);// Edit 1 float using a slider from 0.0f to 1.0f    
 
-                ImGui::SliderFloat("boxB", &rotation, 0.0f, 2*3.14159f);// Edit 1 float using a slider from 0.0f to 1.0f 
+                ImGui::SliderFloat("Angle", &rotation, 0.0f, 2*3.14159f);// Edit 1 float using a slider from 0.0f to 1.0f 
+
+                ImGui::SliderFloat3("Angle direction", &rotationDirection.x, -1, 1);// Edit 1 float using a slider from 0.0f to 1.0f 
+
+                ImGui::SliderFloat2("scaling", &scaling.x, .1, 10);
                 
                 ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
             }
@@ -198,4 +186,11 @@ int main()
     ImGui_ImplGlfwGL3_Shutdown();
     ImGui::DestroyContext();
     glfwTerminate();
+
+
+    system("CLS");
+
+    std::cout << "happy mothers day, love devin and austin!!!!\n(press any key to exit)";
+
+    std::cin.get();
 }
